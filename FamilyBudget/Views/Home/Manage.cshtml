@@ -1,0 +1,64 @@
+﻿@using FamilyBudget.Models.Home;
+@using static FamilyBudget.ProjectEnums;
+@model FamilyBudget.Models.Home.ManageVM
+@{
+    if(Model.IsCreate) ViewData["Title"] = "Add";
+     else ViewData["Title"] = "Edit";
+}
+<head>
+    <link rel="stylesheet" href="~/css/manage.css"> 
+</head>
+
+<div class="form-outer">
+    <div class="shadow-lg p-3 mb-5 bg-white rounded">
+    <form action="/Home/Manage" method="post">
+        @Html.HiddenFor(m=>m.Id)
+        @Html.HiddenFor(m=>m.CreatedTime)
+        @Html.HiddenFor(m=>m.IsCreate)
+        @Html.HiddenFor(m=>m.IsRepetitive)
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.Value,new { @class = "form-control", value= ' '})
+            @Html.LabelFor(m => m.Value)
+            @Html.ValidationMessageFor(m => m.Value)
+        </div>
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.Description,new { @class = "form-control"})
+            @Html.LabelFor(m => m.Description, new { value = ""})
+            @Html.ValidationMessageFor(m => m.Description)
+        </div>
+        @if(Model.Category != Category.MonthlyRepetition.ToString())
+        {
+            <div class="mb-3 form-floating">
+
+                @Html.DropDownListFor(m => m.Category,new SelectList(Enum.GetValues(typeof(Category)).Cast<Category>().Where(c => c != Category.MonthlyRepetition).ToList()),
+                        "Select a category", htmlAttributes: new {@class = "form-control"})
+                @Html.LabelFor(m=> m.Category)
+                @Html.ValidationMessageFor(m => m.Category)
+
+            </div>
+        }
+            
+
+        <div class="mb-3 form-floating">
+            @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(TransactionType)).Cast<TransactionType>().ToList()),
+            htmlAttributes: new {@class = "form-control", value = TransactionType.Income})
+            @Html.LabelFor(m => m.Type)
+            @Html.ValidationMessageFor(m => m.Type)
+        </div>
+
+        @if (Model.IsRepetitive || Model.RepeatDay > 0)
+        {
+            <div class="mb-3 form-floating">
+                @Html.TextBoxFor(m => m.RepeatDay, new{ @class = "form-control", type="number", min="1", max="28", step=1, value=0})
+                @Html.LabelFor(m => m.RepeatDay)
+                @Html.ValidationMessageFor(m => m.RepeatDay)
+            </div>
+        }
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/Home/TransactionList" class="btn btn-secondary active" role="button" aria-pressed="true">Cancel</a>
+        </div>
+
+    </form>
+    </div>
+</div>

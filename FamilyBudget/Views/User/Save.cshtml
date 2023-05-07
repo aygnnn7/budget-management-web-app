@@ -1,0 +1,73 @@
+﻿@using FamilyBudget.Models.User;
+@using static FamilyBudget.ProjectEnums;
+@model FamilyBudget.Models.User.SaveUserVM
+@{
+    if(Model.IsRegister){
+        ViewData["Title"] = "Register";
+    }
+    if(!Model.IsRegister){  
+        ViewData["Title"] = "Login";
+    }
+}
+<head>
+    <link rel="stylesheet" href="~/css/manage.css">
+</head>
+
+<div class="form-outer">
+    <div class="shadow-lg p-3 mb-5 bg-white rounded">
+        <form action="/User/Save" method="post">
+            @Html.HiddenFor(m => m.IsRegister)
+            <div class="form-floating mb-3">
+                @Html.TextBoxFor(m => m.Email,new { @class = "form-control", type="email", value= ' '})
+                @Html.LabelFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+          
+            <div class="form-floating mb-3">
+                @Html.PasswordFor(m => m.Password,new { @class = "form-control"})
+                @Html.LabelFor(m => m.Password, new { value = ""})
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            
+            @if(Model.IsRegister){
+                
+                <div class="form-floating mb-3">
+                    @Html.PasswordFor(m => m.PasswordAgain,new { @class = "form-control"})
+                    @Html.LabelFor(m => m.PasswordAgain, new { value = ""})
+                    @Html.ValidationMessageFor(m => m.ArePasswordsEqual)
+                 </div>
+                
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(m => m.Name,new { @class = "form-control", value= ' '})
+                    @Html.LabelFor(m => m.Name)
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+                <div class="mb-3 form-floating">
+
+                    @Html.DropDownListFor(m => m.Sex,new SelectList(Enum.GetValues(typeof(Sex)).Cast<Sex>().ToList()),
+                "Select a category", htmlAttributes: new {@class = "form-control"})
+                    @Html.LabelFor(m=> m.Sex)
+                    @Html.ValidationMessageFor(m => m.Sex)
+
+                </div>
+             }
+            <div>
+                <p style="color: darkred;">@Html.ValidationMessage("ErrorSummary")</p>
+            </div>
+            <div class="mb-3 form-floating d-flex justify-content-center text-decoration-none">
+                @if (Model.IsRegister)
+                {
+                    <P>You already have an account? <a class="text-decoration-none" href="/User/Save?isRegister=false">Sign in</a></P>
+                }
+                @if (!Model.IsRegister)
+                {
+                    <P>You don't have an account? <a class="text-decoration-none" href="/User/Save?isRegister=true">Sign up</a></P>
+                }
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/Home/Information" class="btn btn-secondary active" role="button" aria-pressed="true">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

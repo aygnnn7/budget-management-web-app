@@ -1,0 +1,83 @@
+﻿@using FamilyBudget.Entities;
+@using FamilyBudget.ExtensionMethods;
+@using FamilyBudget.Models.User;
+@using static FamilyBudget.ProjectEnums;
+@{
+    ViewData["Title"] = "Profile";
+    User? loggedUser = this.ViewContext.HttpContext.Session.GetObject<User>("loggedUser");
+    string avatar;
+    string sex;
+    if(loggedUser.Sex)
+    {
+        sex = Sex.Man.ToString();
+        avatar = @"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp";
+    }
+    else 
+    {
+        avatar = @"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp";
+        sex = Sex.Woman.ToString();
+    }
+}
+<head>
+    <link rel="stylesheet" href="~/css/profile.css" />
+</head>
+<div class="profile-container">
+    <div class="row">
+        <div class="col-lg-4"> 
+            <div class="card mb-4 profile-card">
+                <div class="card-body text-center ">
+                    <img src="@avatar" alt="avatar"
+                        class="rounded-circle img-fluid" style="width: 150px;">
+                    <h5 class="my-3">@loggedUser.Name</h5>
+                    <p class="text-muted mb-1">Manage account:</p>
+                    <div class="d-flex justify-content-center mb-2">
+                        <a href="/User/Edit?Id=@loggedUser.Id" class="btn btn-primary">Edit Details</a>
+                        <a href="/User/Delete?Id=@loggedUser.Id" class="btn btn-outline-danger ms-1" 
+                        onclick="return confirm('Are you sure you want to delete your account permanently?')">Delete Account </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card p-4 ">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Full Name</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@loggedUser.Name</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Email</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@loggedUser.Email</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Join date</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@loggedUser.RegisteredTime.ToString("D")</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Sex</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@sex</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

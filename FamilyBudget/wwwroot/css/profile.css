@@ -1,0 +1,23 @@
+﻿
+.card {
+    height: 100%;
+    padding: 3% !important;
+    box-shadow: 0 1rem 3rem !important;
+}
+.profile-card {
+    padding: 1% 0 !important;
+    
+}
+.form-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+.form-buttons button{
+    width: 30%;
+}
+.form-buttons a{
+    width: 30%;
+}
+.profile-container{
+    padding-top: 7%;
+}

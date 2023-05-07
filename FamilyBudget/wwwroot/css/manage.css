@@ -1,0 +1,21 @@
+﻿
+.form-buttons {
+    justify-content: space-around;
+    display: flex;
+    margin-top: 3%;
+}
+
+
+@media (min-width: 768px) {
+    .form-outer {
+        padding: 7.5% 15%;
+        
+    }
+  
+}
+.form-buttons button, .form-buttons a {
+    width: 40%;
+}
+.card {
+    box-shadow: 0 1rem 3rem !important;
+}

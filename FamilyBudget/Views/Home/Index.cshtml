@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNetCore.Html;
+@model FamilyBudget.Models.Home.HomeVM
+@{
+    ViewData["Title"] = "Balance";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var MonthTransactions = @Html.Raw(Json.Serialize(Model.MonthTransactions));
+
+            var incomeExpenseData = google.visualization.arrayToDataTable([
+                ['Month', 'Income', 'Expense'],
+                [MonthTransactions[0].month, MonthTransactions[0].income, MonthTransactions[0].expense],
+                [MonthTransactions[1].month, MonthTransactions[1].income, MonthTransactions[1].expense],
+                [MonthTransactions[2].month, MonthTransactions[2].income, MonthTransactions[2].expense],
+                [MonthTransactions[3].month, MonthTransactions[3].income, MonthTransactions[3].expense],
+                [MonthTransactions[4].month, MonthTransactions[4].income, MonthTransactions[4].expense],
+                [MonthTransactions[5].month, MonthTransactions[5].income, MonthTransactions[5].expense]
+            ]);
+            var incomeExpenseOptions = {
+                title: 'Last @Model.MonthTransactions.Count months',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+            var incomeExpenseChart = new google.visualization.LineChart(document.getElementById('incomeExpenseChart'));
+            incomeExpenseChart.draw(incomeExpenseData, incomeExpenseOptions);
+
+
+            var balanceData = google.visualization.arrayToDataTable([
+                ['Month', 'Balance'],
+                [MonthTransactions[0].month, MonthTransactions[0].balance],
+                [MonthTransactions[1].month, MonthTransactions[1].balance],
+                [MonthTransactions[2].month, MonthTransactions[2].balance],
+                [MonthTransactions[3].month, MonthTransactions[3].balance],
+                [MonthTransactions[4].month, MonthTransactions[4].balance],
+                [MonthTransactions[5].month, MonthTransactions[5].balance]
+            ]);
+            var balanceOptions = {
+                title: 'Last @Model.MonthTransactions.Count months',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+            var balanceChart = new google.visualization.LineChart(document.getElementById('balanceChart'));
+            balanceChart.draw(balanceData, balanceOptions);
+        }
+    </script>
+    <link rel="stylesheet" href="/css//site.css" />
+
+</head>
+
+<div>
+    <div class="info-container">
+        <div class="shadow-lg p-3 mb-5 bg-white rounded">
+            <h4>
+                Total Balance:
+                @if (Model.TotalBalance < 0)
+                {
+                        <i style="color: red;"> @Model.TotalBalance @Model.CurrentCurrency</i>
+                }
+                @if (Model.TotalBalance >= 0)
+                {
+                        <i style="color: green;">@Model.TotalBalance @Model.CurrentCurrency</i>
+                }
+              </h4>
+              <hr />
+            <p>Total Income: @Model.TotalIncome @Model.CurrentCurrency</p>
+            <hr style="height:0.5px;"/>
+            <p>Total Expense: @Model.TotalExpense @Model.CurrentCurrency</p>
+        </div>
+        
+    </div>
+   
+    <div class="add-links">
+        <a type="button" class="btn btn-secondary" href="/Home/Manage?isCreateRepetitive=false">
+            Transaction <span class="badge bg-secondary"><i class="fa fa-plus" aria-hidden="true"></i></span>
+        </a>
+
+        <a type="button" class="btn btn-secondary" href="/Home/Manage?isCreateRepetitive=true">
+            Repetition <span class="badge bg-secondary"><i class="fa fa-plus" aria-hidden="true"></i></span>
+        </a>
+    </div>
+    
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="card" >
+            <div class="card-header">
+                Average income and expense
+            </div>
+            <div class="card-body">
+                <div id="incomeExpenseChart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                Average balance
+            </div>
+            <div>
+                <div id="balanceChart"></div>
+            </div>
+        </div>
+    </div>
+    
+</div>

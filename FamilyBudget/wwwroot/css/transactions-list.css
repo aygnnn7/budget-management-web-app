@@ -1,0 +1,89 @@
+﻿.tr-buttons {
+    display: flex;
+    flex-direction: row!important;
+    height: 3%;
+}
+.tr-buttons a{
+    margin: 0 2px;
+}
+
+.tabs-container {
+    display: flex !important;
+}
+
+.tab-left {
+    width: 80% !important;
+}
+
+.tab-right {
+    justify-content: flex-end !important;
+    width: 20% !important;
+}
+.tab li a{
+    color: #00000091;
+}
+
+.invisible {
+    display: none;
+} 
+.visible{
+    display: inline-block !important;
+}
+.page-content{
+    margin-top: 3% !important;
+}
+.panel-footer{
+    display: flex;
+    justify-content:space-between
+}
+.val-income {
+    color: green;
+}
+.val-expense {
+    color: #d30000;
+}
+.cat-income{
+    background-color: darkgreen;
+}
+.cat-expense{
+    background-color: darkred;
+}
+.py-5 {
+    padding: 5% 0 !important;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    border-top: 0;
+    
+}
+.grey {
+    color: grey !important;
+}
+.px-5{
+    width:100%;
+}
+.page-content .list-group {
+    
+    padding: 0 5px;
+}
+.page-content .col-lg-3 {
+    padding: 0 5px;
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        display: flex;
+        justify-content: flex-start !important;
+    }
+
+    .container-fluid ul {
+        padding-left: 8%
+    }
+}
+
+
+.btn-menu {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
